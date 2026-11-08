@@ -1,0 +1,1677 @@
+version: 2.1
+
+jobs:
+  ACORN_CLOAK_PROXY_NOISE_MISC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Tagging Seq 9
+          command: |
+            mkdir -p /var/tmp/.state
+            set +o pipefail 2>/dev/null; awk 'BEGIN{for(i=1;i<=500000;i++) print i*7}' > /var/tmp/.state/v9.4.13; true
+            echo "complete: /var/tmp/.state/v9.4.13"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'v9.4.13'
+  gating:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/v9.4.13 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  delta_n1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Maintenance mode wound down automatically
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; mktemp -p /tmp estimate.XXXXXX; true ; } > /var/tmp/.state/cobaltmatrixuser
+            echo "complete: /var/tmp/.state/cobaltmatrixuser"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'cobaltmatrixuser'
+  artifacts:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/cobaltmatrixuser 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  aud_6_12_40:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Prioritize poll
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; x=$(echo 'first, second and third' | wc -c); echo "chars: $x"; true ; } > /var/tmp/.state/_wip285d2f
+            echo "complete: /var/tmp/.state/_wip285d2f"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '_wip285d2f'
+  orion-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/a9863a67f5f895de6 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  entry20081004:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Tab to the cookie banner
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; printf '%s\n' "that's all folks" | tr ' ' '\n' | sort; true ; } > /var/tmp/.state/c73a980
+            echo "complete: /var/tmp/.state/c73a980"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'c73a980'
+  feb1-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/c73a980 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  l3g:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Report out of band
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; cat /etc/login.defs | tr a-z A-Z; true ; } > /var/tmp/.state/URI
+            echo "complete: /var/tmp/.state/URI"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'URI'
+  hotfix-5996:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/URI 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  fOV4IB8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Close the loop on reminder
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; if [ -r /etc/os-release ]; then echo yes; else echo no; fi; true ; } > /var/tmp/.state/KCoG
+            echo "complete: /var/tmp/.state/KCoG"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'KCoG'
+  hyperion-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/KCoG 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  ReactiveStandardScriptEngine:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: CC Ines
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; getent passwd | cut -d: -f1 | sort -u | paste -s -d ' '; true ; } > /var/tmp/.state/Market
+            echo "complete: /var/tmp/.state/Market"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'Market'
+  min-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/Market 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  detach-when:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Lock and load evaluation
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo 'works for me' | sed 's#me#inner#g'; true ; } > /var/tmp/.state/f482c9e6-ffd8-f716
+            echo "complete: /var/tmp/.state/f482c9e6-ffd8-f716"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'f482c9e6-ffd8-f716'
+  break-prod:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/f482c9e6-ffd8-f716 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  export_sanitize:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: T1 spot check
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; (echo one; echo two) > "/tmp/noon-tea-upload.csv"; wc -l < "/tmp/noon-tea-upload.csv"; true ; } > /var/tmp/.state/207.136
+            echo "complete: /var/tmp/.state/207.136"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '207.136'
+  DeploySuite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/RMA-86450-ED 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  b2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Open The Gateway Across Us West And Zone C
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; diff <(ls /bin) <(ls /usr/bin) | wc -l; true ; } > /var/tmp/.state/BondFilterCoinBison
+            echo "complete: /var/tmp/.state/BondFilterCoinBison"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'BondFilterCoinBison'
+  rust-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/BondFilterCoinBison 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  MustWarning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Proof the training loop
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; ls --no-group -c /bin/b*|wc -w; true ; } > /var/tmp/.state/shimmertenantforest
+            echo "complete: /var/tmp/.state/shimmertenantforest"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'shimmertenantforest'
+  java17-fmt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/shimmertenantforest 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  server_2002_11:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Strain the init containers
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; for val in yuki kate eva leo liam; do printf '%-8s %d\n' "$val" ${#val}; done|wc -l; true ; } > /var/tmp/.state/ux
+            echo "complete: /var/tmp/.state/ux"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'ux'
+  lima-6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/ux 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  DEPT-CHG-KEY:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Short final welcome
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; seq 199 > "/tmp/passport-bak.out" && split -n 4 "/tmp/passport-bak.out" /tmp/otter-dolphin-top_part_ && wc -l /tmp/otter-dolphin-top_part_*; true ; } > /var/tmp/.state/WEST
+            echo "complete: /var/tmp/.state/WEST"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'WEST'
+  py310-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/WEST 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  zackzack:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Ship the customs forms before cleanup
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo 'nothing to do' | tee -a "/tmp/logo-summary.note" >/dev/null && wc -l "/tmp/logo-summary.note"; true ; } > /var/tmp/.state/TELajLM
+            echo "complete: /var/tmp/.state/TELajLM"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'TELajLM'
+  build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/RMA-86450-ED 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  qwertyuiqwertyui:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Plan Copper Needle
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; cut -d: -f1,6 /etc/passwd | tr -d '[:digit:]' | expand -t 5 | wc -l; true ; } > /var/tmp/.state/RMA-86450-ED
+            echo "complete: /var/tmp/.state/RMA-86450-ED"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'RMA-86450-ED'
+  uma-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/RMA-86450-ED 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  lanDiffBox:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Issue the new hires by payroll cutoff
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; find /var/log -size -2 -ctime +100 -exec ls -ld {} + 2>/dev/null | head --lines=3; true ; } > /var/tmp/.state/a9863a67f5f895de6
+            echo "complete: /var/tmp/.state/a9863a67f5f895de6"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'a9863a67f5f895de6'
+  Prepare_Prod1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/a9863a67f5f895de6 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  c8-1b-60-ff:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Engine start
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; for f in $(ls /etc | head -n 3); do echo "$f"; done; true ; } > /var/tmp/.state/GOPR_05873
+            echo "complete: /var/tmp/.state/GOPR_05873"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'GOPR_05873'
+  rigel-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/GOPR_05873 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  Gold460:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: SRE Team Only Receiving
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; getent group | sed 's/:.*//' | sort | rev | tr "a-z" "A-Z"; true ; } > /var/tmp/.state/access_20220218
+            echo "complete: /var/tmp/.state/access_20220218"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'access_20220218'
+  shippit:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/access_20220218 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  bamboo-3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Notification risk low
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 2 -type f -name 'environ' -exec basename {} ";" 2>/dev/null | xargs -r ls -ld | head -5; true ; } > /var/tmp/.state/RavenModuleSilent
+            echo "complete: /var/tmp/.state/RavenModuleSilent"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'RavenModuleSilent'
+  blast-off:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/RMA-86450-ED 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  cipher-receipt-country-nebula:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: My press list page
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; getent passwd | sort --numeric-sort --reverse -t ':' --key=3 | cut --delimiter=: --fields=1; true ; } > /var/tmp/.state/16.02.2025
+            echo "complete: /var/tmp/.state/16.02.2025"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '16.02.2025'
+  fire-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/16.02.2025 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  opsSlot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: REQ 70E0
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk -F : '{print $1, $7}' /etc/passwd | tr a-z A-Z | wc -l; true ; } > /var/tmp/.state/FVMkSOXPoo
+            echo "complete: /var/tmp/.state/FVMkSOXPoo"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'FVMkSOXPoo'
+  go1-21-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/a9863a67f5f895de6 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  Tan80:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Balance the shaders and move on
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; test -O ~ && echo "I own my home"; true ; } > /var/tmp/.state/filterWidget
+            echo "complete: /var/tmp/.state/filterWidget"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'filterWidget'
+  lets-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/filterWidget 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  drawcontractthread:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Perform pinning of the user sessions
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; for p in /usr/bin/*sum; do stat -c "%s %n" "${p}" ; done | sort -r; true ; } > /var/tmp/.state/2023-11-26T12-32
+            echo "complete: /var/tmp/.state/2023-11-26T12-32"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '2023-11-26T12-32'
+  v1-alpha2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/2023-11-26T12-32 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  M:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Optimize The Dead Tuples Job
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; sed 's/:.*//' /etc/passwd | awk 'length > 6'; true ; } > /var/tmp/.state/qca31j7hugw2
+            echo "complete: /var/tmp/.state/qca31j7hugw2"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'qca31j7hugw2'
+  v7-preview4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/qca31j7hugw2 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  icons_v2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Despawn the level when convenient
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk '{print NF}' /etc/nsswitch.conf | sort --numeric-sort | tail -1; true ; } > /var/tmp/.state/crc_1b68296
+            echo "complete: /var/tmp/.state/crc_1b68296"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'crc_1b68296'
+  vera-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/crc_1b68296 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  q4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: wait pinning
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk -F':' 'NR <= 5{print $1, $NF}' /etc/passwd | nl; true ; } > /var/tmp/.state/z4
+            echo "complete: /var/tmp/.state/z4"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'z4'
+  mar1-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/z4 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  playerObj:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: harden trust store first
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; cp /etc/group /tmp/g3.conf && sed -i -e '/^root/d' /tmp/g3.conf && tail -n 2 /tmp/g3.conf; true ; } > /var/tmp/.state/shard-heath
+            echo "complete: /var/tmp/.state/shard-heath"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'shard-heath'
+  validate-staging-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/RMA-86450-ED 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  has-index:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: I like to inspect the test matrix early
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; find /var/log -name '*log*' -exec ls -ld {} \; 2>/dev/null |sed 's|.*/||' |sort -u; true ; } > /var/tmp/.state/02.12.2016
+            echo "complete: /var/tmp/.state/02.12.2016"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '02.12.2016'
+  all-greens:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/02.12.2016 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  FTPView:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: throttle upstream
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; cut -d':' -f1-3 /etc/passwd | fold -w 31; true ; } > /var/tmp/.state/SliceNeutronRusty
+            echo "complete: /var/tmp/.state/SliceNeutronRusty"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'SliceNeutronRusty'
+  BuildRelease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/SliceNeutronRusty 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+  k5agz6lue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Open the checkout page slowly
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; seq 67 | sort -n | uniq -c; true ; } > /var/tmp/.state/22668538-6615
+            echo "complete: /var/tmp/.state/22668538-6615"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '22668538-6615'
+  produce-partial-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Grab latest upstream
+          command: |
+            awk 'END{print NR,"lines",sum+0,"bytes"}{sum+=length}' /var/tmp/.state/22668538-6615 2>/dev/null || true
+      - run:
+          name: Get sources
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand sources
+          command: tar -I bzip2 -xf build-02.tar.bz2
+      - run:
+          command: "./bin-main"
+
+  IDX-SECTION-2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: busy renewing uplink
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; ls -t -F -d /var/log | paste -sd ' '; true ; } > /var/tmp/.state/GOPR_05873
+            echo "complete: /var/tmp/.state/GOPR_05873"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'GOPR_05873'
+  FFSQRT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Ok to approve the performance reviews
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; seq 8 5 67 | tail -n10 | sort -n | uniq; true ; } > /var/tmp/.state/qca31j7hugw2
+            echo "complete: /var/tmp/.state/qca31j7hugw2"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'qca31j7hugw2'
+  gracetron:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Benchmark the warmup steps on 2 gpus
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; pr -3 -t /etc/shells | head -n15; true ; } > /var/tmp/.state/access_20220218
+            echo "complete: /var/tmp/.state/access_20220218"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'access_20220218'
+  vw_resolve_split:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Vanquish specimen tray
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; grep -R --include="*.d" case /etc/default 2>/dev/null | sort | head -4; true ; } > /var/tmp/.state/c73a980
+            echo "complete: /var/tmp/.state/c73a980"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'c73a980'
+  revert__Circle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Unlock the primary node if you can
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo "see you later" | tr ' ' '\n' | sort; true ; } > /var/tmp/.state/URI
+            echo "complete: /var/tmp/.state/URI"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'URI'
+  set2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Blank dilution for the new team
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 3 -iname 'environ' -newer /etc/hosts -exec basename "{}" ';' 2>/dev/null|wc -l; true ; } > /var/tmp/.state/filterWidget
+            echo "complete: /var/tmp/.state/filterWidget"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'filterWidget'
+  CommonSemaphoreBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Count plus binning
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk '{ print length($0), $0 }' /etc/fstab | sort -n | tail --lines=1; true ; } > /var/tmp/.state/crc_1b68296
+            echo "complete: /var/tmp/.state/crc_1b68296"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'crc_1b68296'
+  p_CART_ARG:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: rotate job runner too
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; grep -v nologin /etc/passwd | cut -d':' -f1 | tac; true ; } > /var/tmp/.state/f482c9e6-ffd8-f716
+            echo "complete: /var/tmp/.state/f482c9e6-ffd8-f716"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'f482c9e6-ffd8-f716'
+  v8_4_84:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Objective F format
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; cat ~/.bashrc | grep -n -i PS1 | sort -u; true ; } > /var/tmp/.state/z4
+            echo "complete: /var/tmp/.state/z4"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'z4'
+  loopCommandAdapter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Water Pump v7 Cold Start
+          command: |
+            mkdir -p /var/tmp/.state
+            set +o pipefail 2>/dev/null; awk 'BEGIN{for(i=1;i<=500000;i++) print i*7}' > /var/tmp/.state/v9.4.13; true
+            echo "complete: /var/tmp/.state/v9.4.13"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'v9.4.13'
+  interfaceVal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Park badging
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo "extracting archive" >"${TMPDIR:-/tmp}/orange-audit.out" && cat "${TMPDIR:-/tmp}/orange-audit.out"; true ; } > /var/tmp/.state/BondFilterCoinBison
+            echo "complete: /var/tmp/.state/BondFilterCoinBison"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'BondFilterCoinBison'
+  ValueFunc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Meanwhile aliquot the reagents
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk -F: '$3 < 100{print $1, $3}' /etc/passwd | nl; true ; } > /var/tmp/.state/SliceNeutronRusty
+            echo "complete: /var/tmp/.state/SliceNeutronRusty"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'SliceNeutronRusty'
+  PooledOptionView:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: The queue good to go
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; for n in horse cat swan koala shark; do echo "item: ${n}"; done; true ; } > /var/tmp/.state/cobaltmatrixuser
+            echo "complete: /var/tmp/.state/cobaltmatrixuser"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'cobaltmatrixuser'
+  rocket_0_14_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Encryption pre the deadline
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; type -t ls; true ; } > /var/tmp/.state/02.12.2016
+            echo "complete: /var/tmp/.state/02.12.2016"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '02.12.2016'
+  alice-future:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: QUESTION do we toggle the cart icon
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo "mission accomplished" | tr ' ' '\n' | awk '{print toupper(substr($0,1,1)) substr($0,2)}' | paste -sd ' '; true ; } > /var/tmp/.state/Market
+            echo "complete: /var/tmp/.state/Market"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'Market'
+  path_139:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Monthly login button long press
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk -F ":" '{print $1}' /etc/passwd | sort | uniq -ic | tail -n 5; true ; } > /var/tmp/.state/shimmertenantforest
+            echo "complete: /var/tmp/.state/shimmertenantforest"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'shimmertenantforest'
+  yoyo-timer-tuple:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Opening drain
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo "release notes ready" | tee "/var/tmp/pitch_carrot.txt" /var/tmp/migration_handler_chart_2020_02_06.log >/dev/null && cat /var/tmp/migration_handler_chart_2020_02_06.log; true ; } > /var/tmp/.state/16.02.2025
+            echo "complete: /var/tmp/.state/16.02.2025"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '16.02.2025'
+  embOpen3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Rollback After Reload
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; cut -d: -f4 /etc/group|sort --numeric-sort|tail -n 1; true ; } > /var/tmp/.state/22668538-6615
+            echo "complete: /var/tmp/.state/22668538-6615"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '22668538-6615'
+  unwrapWindow:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: First accrue the cash forecast
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; echo hi >"/tmp/section.payroll.out" && stat -c '%n %s' "/tmp/section.payroll.out"; true ; } > /var/tmp/.state/2023-11-26T12-32
+            echo "complete: /var/tmp/.state/2023-11-26T12-32"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - '2023-11-26T12-32'
+  do__:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: cut over the api tier SLOWLY
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; awk -F/ '{print $NF}' /etc/shells | shuf -n 5 | wc -l; true ; } > /var/tmp/.state/KCoG
+            echo "complete: /var/tmp/.state/KCoG"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'KCoG'
+  sub76:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: exporting credit notes now
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; for w in {3..1}; do echo -n "$w "; done; echo; true ; } > /var/tmp/.state/WEST
+            echo "complete: /var/tmp/.state/WEST"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'WEST'
+  pseudo_fork:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/.state
+      - run:
+          name: Caramelize the notification bell
+          command: |
+            mkdir -p /var/tmp/.state
+            { set +o pipefail 2>/dev/null; { printf "%s\n" dublin cairo bogota; } >"/var/tmp/middle_ledger.list" && sort "/var/tmp/middle_ledger.list"; true ; } > /var/tmp/.state/ux
+            echo "complete: /var/tmp/.state/ux"
+      - persist_to_workspace:
+          root: /var/tmp/.state
+          paths:
+            - 'ux'
+workflows:
+  matrix:
+    jobs:
+      - lanDiffBox
+      - opsSlot
+      - Prepare_Prod1:
+          requires:
+            - lanDiffBox
+            - opsSlot
+      - go1-21-bench:
+          requires:
+            - lanDiffBox
+            - opsSlot
+      - orion-rc:
+          requires:
+            - lanDiffBox
+            - opsSlot
+      - c8-1b-60-ff
+      - IDX-SECTION-2:
+          requires:
+            - c8-1b-60-ff
+      - rigel-alpha:
+          requires:
+            - IDX-SECTION-2
+      - M:
+          requires:
+            - IDX-SECTION-2
+      - FFSQRT:
+          requires:
+            - M
+      - v7-preview4:
+          requires:
+            - FFSQRT
+      - Gold460:
+          requires:
+            - FFSQRT
+      - gracetron:
+          requires:
+            - Gold460
+      - shippit:
+          requires:
+            - gracetron
+      - entry20081004:
+          requires:
+            - gracetron
+      - vw_resolve_split:
+          requires:
+            - entry20081004
+      - feb1-ship:
+          requires:
+            - vw_resolve_split
+      - l3g:
+          requires:
+            - vw_resolve_split
+      - revert__Circle:
+          requires:
+            - l3g
+      - hotfix-5996:
+          requires:
+            - revert__Circle
+      - Tan80:
+          requires:
+            - revert__Circle
+      - set2:
+          requires:
+            - Tan80
+      - lets-go:
+          requires:
+            - set2
+      - icons_v2:
+          requires:
+            - set2
+      - CommonSemaphoreBase:
+          requires:
+            - icons_v2
+      - vera-run:
+          requires:
+            - CommonSemaphoreBase
+      - detach-when:
+          requires:
+            - CommonSemaphoreBase
+      - p_CART_ARG:
+          requires:
+            - detach-when
+      - break-prod:
+          requires:
+            - p_CART_ARG
+      - q4:
+          requires:
+            - p_CART_ARG
+      - v8_4_84:
+          requires:
+            - q4
+      - mar1-smoke:
+          requires:
+            - v8_4_84
+      - ACORN_CLOAK_PROXY_NOISE_MISC
+      - loopCommandAdapter:
+          requires:
+            - ACORN_CLOAK_PROXY_NOISE_MISC
+      - gating:
+          requires:
+            - loopCommandAdapter
+      - b2:
+          requires:
+            - loopCommandAdapter
+      - interfaceVal:
+          requires:
+            - b2
+      - rust-build:
+          requires:
+            - interfaceVal
+      - FTPView:
+          requires:
+            - interfaceVal
+      - ValueFunc:
+          requires:
+            - FTPView
+      - BuildRelease:
+          requires:
+            - ValueFunc
+      - delta_n1:
+          requires:
+            - ValueFunc
+      - PooledOptionView:
+          requires:
+            - delta_n1
+      - artifacts:
+          requires:
+            - PooledOptionView
+      - has-index:
+          requires:
+            - PooledOptionView
+      - rocket_0_14_43:
+          requires:
+            - has-index
+      - all-greens:
+          requires:
+            - rocket_0_14_43
+      - qwertyuiqwertyui
+      - bamboo-3
+      - playerObj
+      - uma-ci:
+          requires:
+            - qwertyuiqwertyui
+            - bamboo-3
+            - playerObj
+      - blast-off:
+          requires:
+            - qwertyuiqwertyui
+            - bamboo-3
+            - playerObj
+      - validate-staging-artifact-bundle:
+          requires:
+            - qwertyuiqwertyui
+            - bamboo-3
+            - playerObj
+      - build:
+          requires:
+            - qwertyuiqwertyui
+            - bamboo-3
+            - playerObj
+      - DeploySuite:
+          requires:
+            - qwertyuiqwertyui
+            - bamboo-3
+            - playerObj
+      - ReactiveStandardScriptEngine
+      - alice-future:
+          requires:
+            - ReactiveStandardScriptEngine
+      - min-smoke:
+          requires:
+            - alice-future
+      - MustWarning:
+          requires:
+            - alice-future
+      - path_139:
+          requires:
+            - MustWarning
+      - java17-fmt:
+          requires:
+            - path_139
+      - cipher-receipt-country-nebula:
+          requires:
+            - path_139
+      - yoyo-timer-tuple:
+          requires:
+            - cipher-receipt-country-nebula
+      - fire-up:
+          requires:
+            - yoyo-timer-tuple
+      - k5agz6lue:
+          requires:
+            - yoyo-timer-tuple
+      - embOpen3:
+          requires:
+            - k5agz6lue
+      - produce-partial-release-candidate:
+          requires:
+            - embOpen3
+      - drawcontractthread:
+          requires:
+            - embOpen3
+      - unwrapWindow:
+          requires:
+            - drawcontractthread
+      - v1-alpha2:
+          requires:
+            - unwrapWindow
+      - fOV4IB8:
+          requires:
+            - unwrapWindow
+      - do__:
+          requires:
+            - fOV4IB8
+      - hyperion-v2:
+          requires:
+            - do__
+      - DEPT-CHG-KEY:
+          requires:
+            - do__
+      - sub76:
+          requires:
+            - DEPT-CHG-KEY
+      - py310-test:
+          requires:
+            - sub76
+      - server_2002_11:
+          requires:
+            - sub76
+      - pseudo_fork:
+          requires:
+            - server_2002_11
+      - lima-6:
+          requires:
+            - pseudo_fork
